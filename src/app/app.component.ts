@@ -12,6 +12,8 @@ import { ProductRepository } from './model/product.repository';
 export class AppComponent {
   title = 'newsSelector';
   public selectedCategory: Category|null = null;
+  filterText:string='';
+
   constructor(
     private productRepository:ProductRepository,
     private categoryRepository:CategoryRepository
