@@ -8,14 +8,23 @@
   <div class="container">
     <div class="row">
         <div class="col-sm-3">
-            <select class="form-select" aria-label="Default select example">
-                <option selected>Tumu</option>
-                <ng-container *ngFor="let c of categories">
-                    <option value="{{c.code}}">{{c.code}}</option>
-                </ng-container>
-            </select>
+            <div class="list-group">
+                <a href="#"(click)="changeCategory(null)"
+                    class="list-group-item list-group-item-action">
+                        Tumu
+                </a>
+                <a *ngFor="let c of categories" href="#" 
+                    (click)="changeCategory(c)" 
+                    [class.active]="c==selectedCategory"
+                    class="list-group-item list-group-item-action"> 
+                        {{c.code}}
+                </a>
+            </div>
         </div>
         <div class="col-sm-9">
+            <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Searc..">
+            </div>
             <table class="table">
                 <thead>
                   <tr>
@@ -26,16 +35,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngFor="let p of products" >
-                  <tr>
+                  <tr *ngFor="let p of products">
 
                     <td>{{p.date | date: 'dd/MM/yyyy'}}</td>
                     <td>{{p.date | date: 'HH:mm '}}</td>
                     <td>{{p.headline}}</td>
                     <td>{{p.category}}</td>
                 </tr>
-            </ng-container>
-                  
                 </tbody>
               </table>
         </div>
