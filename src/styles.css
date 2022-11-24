@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+td a:visited {
+  color: #d3d3d3;
+}
+td a:link {
+  color: black;
+  text-decoration: none;
+}
+
+td a:hover {
+  text-decoration: underline;
+  text-decoration-color: black;
+}

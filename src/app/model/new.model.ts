@@ -1,4 +1,4 @@
-export class Product{
+export class New{
     constructor(
         public date?:string,
         public category?:string,

@@ -1,53 +1,100 @@
-<p>
-    {{products.length}}
-</p>
-<p>
-    {{categories.length}}
-</p>
-
-  <div class="container">
-    <div class="row">
-        <div class="col-sm-3">
-            <div class="list-group">
-                <a href="#"(click)="changeCategory(null)"
-                    class="list-group-item list-group-item-action">
-                        Tum Kategoriler
-                </a>
-                <a *ngFor="let c of categories | orderBy:'code' " href="#" 
-                    (click)="changeCategory(c)" 
-                    [class.active]="c==selectedCategory"
-                    class="list-group-item list-group-item-action"> 
-                        {{c.code }}
-                </a>
-            </div>
-        </div>
-        <div class="col-sm-9">
-            <div class="mb-3">
-                <input type="text" 
-                [(ngModel)]="filterText" 
-                class="form-control"
-                placeholder="Search..">
-                <small *ngIf="filterText" class="text-muted" >Aradiginiz Kelime : {{filterText}}</small>
-            </div>
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col-2">Tarih</th>
-                    <th scope="col-2">Saat</th>
-                    <th scope="col-6">Baslik</th>
-                    <th scope="col-2">Kategori</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let p of products | productFilter: filterText">
-
-                    <td>{{p.date | date: 'dd/MM/yyyy'}}</td>
-                    <td>{{p.date | date: 'HH:mm '}}</td>
-                    <td>{{p.headline}}</td>
-                    <td>{{p.category}}</td>
-                </tr>
-                </tbody>
-              </table>
-        </div>
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-sm-3">
+      <div class="list-group">
+        <a
+          href="#"
+          (click)="changeCategory(null)"
+          class="list-group-item list-group-item-action"
+        >
+          Tum Kategoriler
+        </a>
+        <a
+          *ngFor="let c of categories | orderByP: 'code'"
+          href="#"
+          (click)="changeCategory(c)"
+          [class.active]="c == selectedCategory"
+          class="list-group-item list-group-item-action"
+        >
+          {{ c.description }}
+        </a>
+      </div>
+    </div>
+    <div class="col-sm-9">
+      <div class="mb-3">
+        <input
+          type="text"
+          [(ngModel)]="filterText"
+          class="form-control"
+          placeholder="Search.."
+        />
+        <small *ngIf="filterText" class="text-muted"
+          >Aradiginiz Kelime : {{ filterText }}</small
+        >
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col-2">Tarih</th>
+            <th (click)="sort('date| date: HH:mm ')" scope="col-2">
+              <i *ngIf="isDecsOrder" class="fa-solid fa-arrow-up"></i>
+              <i *ngIf="!isDecsOrder" class="fa-solid fa-arrow-down"></i>Saat
+            </th>
+            <th scope="col-6">Baslik</th>
+            <th scope="col-2">Kategori</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let n of news
+                | orderBy: dateName:isDecsOrder
+                | newFilter: filterText
+            "
+          >
+            <td>{{ n.date | date: "dd/MM/yyyy" }}</td>
+            <td>{{ n.date | date: "HH:mm " }}</td>
+            <td
+              (click)="getDetails(n.id, n.headline)"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+            >
+              <a href="#" id="{{ n.id }}"
+                ><span>{{ n.headline }}</span></a
+              >
+            </td>
+            <td>{{ n.category }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
+
+<!-- Modal Start -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ headers }}</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <markdown [data]="details.content"> </markdown>
+      </div>
+    </div>
+  </div>
+</div>
